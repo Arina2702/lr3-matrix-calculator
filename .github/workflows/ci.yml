@@ -1,0 +1,38 @@
+name: Matrix Calculator CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install development tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake g++ make libgtest-dev doxygen graphviz valgrind
+      - name: Configure (Google Test is required in CI)
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DMATRIX_REQUIRE_GTEST=ON
+      - name: Build
+        run: cmake --build build --parallel 2
+      - name: Unit tests
+        run: ctest --test-dir build --output-on-failure --verbose
+      - name: Memory check with Valgrind
+        run: valgrind --leak-check=full --error-exitcode=1 ./build/tests/matrix_tests
+      - name: Doxygen
+        run: doxygen Doxyfile
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-calculator-doxygen
+          path: docs/html/
+      - name: Build Docker image
+        run: docker build -t matrix-calculator:lab3 .
+      - name: Smoke test Docker application
+        run: |
+          printf '2 2\n1 2 3 4\n2 2\n5 6 7 8\n' |
+            docker run --rm -i matrix-calculator:lab3 | tee docker-run.log
+          grep -F 'min(A) = 1' docker-run.log

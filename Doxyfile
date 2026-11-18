@@ -1,0 +1,17 @@
+PROJECT_NAME           = "Matrix Calculator - Lab 3"
+PROJECT_BRIEF          = "Matrix calculator library (variant 7: minimum element)"
+OUTPUT_DIRECTORY       = docs
+INPUT                  = include src
+FILE_PATTERNS          = *.h *.cpp
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+HAVE_DOT               = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+INPUT_ENCODING         = UTF-8

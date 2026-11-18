@@ -1,0 +1,6 @@
+build/
+build-asan/
+.git/
+docs/html/
+evidence/
+*.docx

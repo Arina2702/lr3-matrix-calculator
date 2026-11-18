@@ -1,0 +1,9 @@
+/build/
+/build-asan/
+/docs/html/
+/docs/latex/
+*.o
+*.obj
+*.exe
+*.log
+.vscode/
